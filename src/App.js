@@ -1,6 +1,6 @@
 
 import { db } from './Firebase/Config'
-import { getAuth, createUserWithEmailAndPassword} from 'firebase/auth'
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 function App() {
   return (
     <div className="App">
@@ -10,58 +10,75 @@ function App() {
 
           // Create new Auth
           const auth = getAuth();
-          createUserWithEmailAndPassword(auth, 'spartan@gmail.com', '12345678')
+          // createUserWithEmailAndPassword(auth, 'spartan@gmail.com', '12345678')
+          //   .then((userCredential) => {
+          //     // Signed in 
+          //     const user = userCredential.user;
+          //     console.log('User Created '+user);
+          //     // ...
+          //   })
+          //   .catch((error) => {
+          //     const errorCode = error.code;
+          //     const errorMessage = error.message;
+          //     // ..
+          //   });
+
+          // SIgn in user
+
+          signInWithEmailAndPassword(auth, 'spartan@gmail.com', '12345678')
             .then((userCredential) => {
               // Signed in 
               const user = userCredential.user;
-              console.log('User Created '+user);
+              db.collection('products').get().then(item => {
+                item.forEach((item) => {
+                  console.log(item.data(), item.id)
+                })
+              })
               // ...
             })
             .catch((error) => {
               const errorCode = error.code;
               const errorMessage = error.message;
-              // ..
             });
 
-
-          db.collection('products').get().then(item => {
-            item.forEach((item) => {
-              console.log(item.data(),item.id)
-            })
-          })
+          // db.collection('products').get().then(item => {
+          //   item.forEach((item) => {
+          //     console.log(item.data(),item.id)
+          //   })
+          // })
         }}>Load Data</button>
       </div>
       <div>
         <button onClick={() => {
           db.collection('products').add({
-            name:'Smart LED',
-            type:'TV',
-            price:35000
+            name: 'Smart LED',
+            type: 'TV',
+            price: 35000
           })
         }}>Add Data</button>
       </div>
       <div>
-        <button onClick={()=>{
-          db.collection('products').doc('r9t99MZmfTtcui2BPMnZ').delete().then((response)=>{
+        <button onClick={() => {
+          db.collection('products').doc('r9t99MZmfTtcui2BPMnZ').delete().then((response) => {
             console.log('Deleted')
             console.log(JSON.stringify(response));
           })
         }}>Delete Doc</button>
       </div>
       <div>
-        <button onClick={()=>{
+        <button onClick={() => {
           db.collection('products').doc('bdavowxtZI9gDz5lpfYU').set({
-            name:`Thomson 55" inch OLED`,
-            type:'TV',
+            name: `Thomson 55" inch OLED`,
+            type: 'TV',
             price: 45000
           })
         }}>Update</button>
       </div>
       <div>
-        <button onClick={()=>{
+        <button onClick={() => {
           db.collection('products').doc('bdavowxtZI9gDz5lpfYU').set({
-            name:'Smart LED',
-            type:'TV',
+            name: 'Smart LED',
+            type: 'TV',
             price: 35000
           })
         }}>Undo Update</button>
