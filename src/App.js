@@ -8,20 +8,20 @@ function App() {
       <div>
         <button onClick={() => {
 
-          //Create new Auth
-          // const auth = getAuth();
-          // createUserWithEmailAndPassword(auth, 'spartan@gmail.com', '12345678')
-          //   .then((userCredential) => {
-          //     // Signed in 
-          //     const user = userCredential.user;
-          //     console.log('User Created '+user);
-          //     // ...
-          //   })
-          //   .catch((error) => {
-          //     const errorCode = error.code;
-          //     const errorMessage = error.message;
-          //     // ..
-          //   });
+          // Create new Auth
+          const auth = getAuth();
+          createUserWithEmailAndPassword(auth, 'spartan@gmail.com', '12345678')
+            .then((userCredential) => {
+              // Signed in 
+              const user = userCredential.user;
+              console.log('User Created '+user);
+              // ...
+            })
+            .catch((error) => {
+              const errorCode = error.code;
+              const errorMessage = error.message;
+              // ..
+            });
 
 
           db.collection('products').get().then(item => {
